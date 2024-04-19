@@ -179,41 +179,54 @@ let iterobj = {
   // 从在线转为离线
   window.addEventListener("offline", () => {});
   // 网络类型 兼容性很差
-  navigator.connection.addEventListener('change')
+  navigator.connection.addEventListener("change");
 }
 
-
 {
-  const dom = document.createElement("div")
+  const dom = document.createElement("div");
 
   // 拖拽开始
-  dom.ondragstart = (e)=>{e.target}
+  dom.ondragstart = (e) => {
+    e.target;
+  };
 
   // 拖拽到谁身上
-  dom.ondragover = (e)=>{e.target}
+  dom.ondragover = (e) => {
+    e.target;
+  };
 
   // 拖拽到元素身上 只触发一次 类似 mouseenter
-  dom.ondragenter = (e)=>{e.target}
+  dom.ondragenter = (e) => {
+    e.target;
+  };
 
   // 拖拽释放触发 table td tr 默认行为禁止触发拖拽 ondragover 上禁止默认事件就可以了
-  dom.ondrop = (e)=>{}
-
-
+  dom.ondrop = (e) => {};
 }
 
+{
+  // 标签模版
+  let user = {
+    name: "名字",
+    age: "18",
+  };
+
+  const hi = tag`xxxxx${user.name},asdasd${user.age}`;
+  function tag(...arg) {
+    console.log(arg); // ==> 0 ['xxxx','asdasd',''] 1 name 2 age
+  }
+}
 
 {
-
-  // 标签模版 
-  let user = {
-    name : "名字",
-    age : "18"
+  // 比例计算
+  let range = [-10, 10];
+  /**
+   *
+   * @param {Array} range 取值范围
+   * @param {Number} value 位置数据
+   * @param {Number} max 要计算的长度 length
+   */
+  function getRoutate(range, value, max) {
+    return (value / max) * (range[1] - range[0]) + range[0];
   }
-
-  const hi = tag`xxxxx${user.name},asdasd${user.age}`
-  function tag(...arg){
-    console.log(arg); // ==> 0 ['xxxx','asdasd',''] 1 name 2 age
-
-  }
-
 }
