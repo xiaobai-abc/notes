@@ -2,6 +2,9 @@ import { defineConfig, loadEnv } from "vite";
 import path from "path";
 import postcssPresetEnv from "postcss-preset-env";
 
+import browserslist from "browserslist";
+import legacy from "@vitejs/plugin-legacy";
+
 /**
  *  commonjs 规范 注入变量
  *  exports =  module.exports = {}
@@ -15,6 +18,9 @@ import postcssPresetEnv from "postcss-preset-env";
 // 可本地部署 dist文件  npx vite preview
 // npm vite preview
 
+// 浏览器版本配置
+const browserslistConfig = browserslist.loadConfig({ path: "." });
+
 export default defineConfig(({ command, mode }) => {
   // vite-aliases
   //command ==> serve build
@@ -24,6 +30,31 @@ export default defineConfig(({ command, mode }) => {
   const env = loadEnv(mode, process.cwd(), "");
 
   return {
+    plugins: [
+      legacy({
+        targets: browserslistConfig, //需要兼容的目标列表，可以设置多个
+        additionalLegacyPolyfills: ["regenerator-runtime/runtime"],
+        renderLegacyChunks: true,
+        polyfills: [
+          "es.symbol",
+          "es.array.filter",
+          "es.promise",
+          "es.promise.finally",
+          "es/map",
+          "es/set",
+          "es.array.for-each",
+          "es.object.define-properties",
+          "es.object.define-property",
+          "es.object.get-own-property-descriptor",
+          "es.object.get-own-property-descriptors",
+          "es.object.keys",
+          "es.object.to-string",
+          "web.dom-collections.for-each",
+          "esnext.global-this",
+          "esnext.string.match-all",
+        ],
+      }),
+    ],
     envPrefix: "ENV_", //.env 文件 注入import.meta.env 里的字段 添加前缀
     resolve: {
       alias: {
@@ -54,6 +85,11 @@ export default defineConfig(({ command, mode }) => {
             mainColor: "red", //配置全局变量
           },
           devSourcemap: true, //开启css 文件索引 可以查看代码
+          charset: false,
+          additionalData: `@import "${path.resolve(
+            __dirname,
+            "src/style/variable.less"
+          )}";`,
         },
       },
       postcss: {
@@ -83,10 +119,10 @@ export default defineConfig(({ command, mode }) => {
           news: path.resolve("news.html"),
         },
         output: {
-          entryFileNames: 'js/[name]-[hash].js',
-          chunkFileNames: 'js/[name]-chunk-[hash].js',
-          assetFileNames: 'css/[name]-[hash][extname]'
-        }
+          entryFileNames: "js/[name]-[hash].js",
+          chunkFileNames: "js/[name]-chunk-[hash].js",
+          assetFileNames: "css/[name]-[hash][extname]",
+        },
       },
     },
   };

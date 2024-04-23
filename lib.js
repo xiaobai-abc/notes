@@ -230,3 +230,13 @@ let iterobj = {
     return (value / max) * (range[1] - range[0]) + range[0];
   }
 }
+
+{
+  // 移除节点标签
+  function removeTag(fragment) {
+    return (
+      new DOMParser().parseFromString(fragment, "text/html").body.textContent ||
+      ""
+    );
+  }
+}
