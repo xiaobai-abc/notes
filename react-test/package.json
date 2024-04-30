@@ -4,23 +4,36 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev": "vite --host 0.0.0.0",
     "build": "vite build",
-    "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
-    "preview": "vite preview"
+    "preview": "vite preview --port 5050",
+    "preinstall": "npx only-allow yarn"
   },
   "dependencies": {
+    "@arco-design/web-react": "^2.62.0",
+    "@reduxjs/toolkit": "^2.2.3",
+    "axios": "^1.6.8",
+    "classnames": "^2.5.1",
+    "immutable": "^5.0.0-beta.5",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "react-redux": "^9.1.1",
+    "react-router-dom": "^6.23.0"
   },
   "devDependencies": {
+    "@arco-plugins/vite-react": "^1.3.3",
     "@types/react": "^18.2.66",
     "@types/react-dom": "^18.2.22",
+    "@vitejs/plugin-legacy": "^5.3.2",
     "@vitejs/plugin-react": "^4.2.1",
-    "eslint": "^8.57.0",
-    "eslint-plugin-react": "^7.34.1",
-    "eslint-plugin-react-hooks": "^4.6.0",
-    "eslint-plugin-react-refresh": "^0.4.6",
+    "@vitejs/plugin-react-swc": "^3.6.0",
+    "browserslist": "^4.23.0",
+    "less": "^4.2.0",
+    "postcss-preset-env": "^9.5.9",
+    "terser": "^5.31.0",
     "vite": "^5.2.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
   }
 }

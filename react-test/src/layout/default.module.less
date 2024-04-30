@@ -1,0 +1,43 @@
+.defaultLayout {
+  height: 100vh;
+  height: 100dvh;
+  overflow: hidden;
+
+}
+
+// 侧边栏
+.sider {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+
+  .overflow {
+    flex: 1 0 auto;
+    height: 0;
+  }
+}
+
+// 内容
+.content {
+  padding: 0 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  border-radius: 3px;
+}
+
+
+.exit {
+  padding: 16px 0;
+  cursor: pointer;
+  box-shadow: rgba(0, 0, 0, 0.08) 2px 0px 5px 0px;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+
+  span {
+    font-size: 14px;
+    padding-left: 10px;
+  }
+}
