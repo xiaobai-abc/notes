@@ -2,7 +2,7 @@ import { LAYOUT } from "../constant";
 import { h, setBlockTracking } from "vue";
 import { IconFileImage } from "@arco-design/web-vue/es/icon";
 
-const dashboard = {
+export default {
   path: "/map",
   name: "Map",
   // redirect: "/dashboard/index",
@@ -23,5 +23,3 @@ const dashboard = {
     },
   ],
 };
-
-export default dashboard;

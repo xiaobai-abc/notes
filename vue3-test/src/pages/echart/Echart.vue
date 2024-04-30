@@ -1,11 +1,17 @@
 <template>
-  <div class="MyEchart" ref="echart"></div>
+  <div class="MyEchart" id="tmapContainerId" ref="echartRef"></div>
 </template>
 
 <script setup>
-import { ref, watch, onMounted, toRaw, watchPostEffect } from "vue";
+import { shallowRef, onMounted, toRaw, watch, onBeforeUnmount } from "vue";
 import * as echarts from "echarts/core";
-import { LineChart, CandlestickChart, MapChart } from "echarts/charts";
+import {
+  LineChart,
+  CandlestickChart,
+  MapChart,
+  ScatterChart,
+  EffectScatterChart,
+} from "echarts/charts";
 import {
   TitleComponent,
   // 组件类型的定义后缀都为 ComponentOption
@@ -20,6 +26,21 @@ import {
   VisualMapComponent,
   GeoComponent,
 } from "echarts/components";
+
+import { Grid3DComponent } from "echarts-gl/components";
+import {
+  Bar3DChart,
+  Line3DChart,
+  Scatter3DChart,
+  Lines3DChart,
+  Polygons3DChart,
+  SurfaceChart,
+  Map3DChart,
+  ScatterGLChart,
+  GraphGLChart,
+  FlowGLChart,
+  LinesGLChart,
+} from "echarts-gl/charts";
 
 import { LabelLayout, UniversalTransition } from "echarts/features";
 import { CanvasRenderer } from "echarts/renderers";
@@ -42,6 +63,22 @@ echarts.use([
   MapChart,
   GeoComponent,
   VisualMapComponent,
+  ScatterChart,
+  EffectScatterChart,
+
+  Grid3DComponent,
+
+  Bar3DChart,
+  Line3DChart,
+  Scatter3DChart,
+  Lines3DChart,
+  Polygons3DChart,
+  SurfaceChart,
+  Map3DChart,
+  ScatterGLChart,
+  GraphGLChart,
+  FlowGLChart,
+  LinesGLChart,
 ]);
 
 const props = defineProps({
@@ -49,68 +86,62 @@ const props = defineProps({
     type: Object,
     default: () => ({}),
   },
-  size: {
-    type: Object,
-    default: () => {
-      return {
-        width: "",
-        height: "",
-      };
-    },
+});
+
+const emits = defineEmits(["initEchart"]);
+const handlerResize = debounce(() => {
+  if (echart.value) {
+    echart.value.resize?.();
+  }
+});
+const echartRef = shallowRef(null);
+const echart = shallowRef({});
+
+emits("initEchart", echarts);
+
+onMounted(() => {
+  let hasInit = false;
+  const resizeObserver = new ResizeObserver((e) => {
+    if (echartRef.value) {
+      if (hasInit) return;
+      echart.value = echarts.init(echartRef.value);
+      handlerResize();
+      echart.value.resize();
+      echart.value.setOption(props.option || {});
+      hasInit = true;
+      resizeObserver.disconnect();
+    } else {
+      console.log("未传入echartRef:未获取的echart");
+    }
+  });
+  resizeObserver.observe(echartRef.value);
+});
+
+defineExpose({
+  handlerEchart: (callback) => {
+    if (callback) {
+      callback(echart.value);
+    } else {
+      console.log("未传入回调函数");
+    }
   },
 });
 
-const emits = defineEmits(["getEchart"]);
-
-const echart = ref(null);
-const myChart = ref({});
-
-const stop = watch(
-  () => echart.value,
-  (dom) => {
-    if (dom) {
-      resize();
-      const echartExample = echarts.init(dom);
-      myChart.value = echartExample;
-      echartExample.resize();
-
-      const uStop = watch(
-        props.option,
-        (opt) => {
-          const lopt = toRaw(opt);
-          if (echartExample.setOption) {
-            echartExample.setOption(lopt);
-          }
-        },
-        {
-          immediate: true,
-        }
-      );
-
-      stop();
-    }
-  }
-);
-
-// watchEffect(() => {
-//   if (myChart.value.setOption) {
-//     myChart.value.setOption(toRaw(props.option));
-//     console.log(toRaw(props.option))
-//   }
-// });
-
-function resize() {
-  const dom = echart.value;
-  const size = toRaw(props.size);
-  dom.style.width = size.width + "px";
-  dom.style.height = size.height + "px";
+// 防抖
+function debounce(callback, delay = 500) {
+  let timer = null;
+  return function (...arg) {
+    clearTimeout(timer);
+    timer = setTimeout(() => {
+      callback?.(...arg);
+    }, delay);
+  };
 }
 
-window.addEventListener("resize", () => {
-  resize();
-  if (myChart.value.resize) {
-    myChart.value.resize();
-  }
+window.addEventListener("resize", handlerResize);
+onBeforeUnmount(() => {
+  // 销毁时移除监听resize事件
+  window.removeEventListener("resize", handlerResize);
 });
 </script>
 

@@ -76,7 +76,7 @@ const isCollapsed = ref(false); //控制menu是否折叠
     border-radius: 3px;
     .routerView {
       overflow: hidden;
-      flex: 1 0 auto;
+      flex: 1 0 0%;
       height: 0;
     }
   }

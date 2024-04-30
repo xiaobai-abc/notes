@@ -1,4 +1,3 @@
-import { BASEHOE } from "@/config.js";
 import { usePermissionStore } from "@/store/permission.js";
 import { PageNotFoundName } from "@/router/constant.js";
 import { PAGE_NOT_FOUND_ROUTE } from "@/router/routes/basic.js";
@@ -8,6 +7,8 @@ import { asyncRoutes } from "../routes/index";
 export async function createPermissionGuard(router) {
   const permissionStore = usePermissionStore();
   router.beforeEach(async (to, from, next) => {
+
+
     if (permissionStore.getDynamicAddedRoute) {
       next();
       return;

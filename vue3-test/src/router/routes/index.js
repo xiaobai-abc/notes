@@ -1,4 +1,5 @@
 import { PAGE_NOT_FOUND_ROUTE, ERROR_LOG_ROUTE } from "./basic";
+import { BASEHOE } from "@/config.js";
 // import { TestPage } from "./other";
 
 // import.meta.glob() 直接引入所有的模块 Vite 独有的功能
@@ -13,7 +14,7 @@ Object.keys(modules).forEach((key) => {
 });
 
 export const asyncRoutes = [...routeModuleList];
- 
+
 // export const LoginRoute = {
 //   path: "/login",
 //   name: "Login",
@@ -28,7 +29,7 @@ export const asyncRoutes = [...routeModuleList];
 export const RootRoute = {
   path: "/",
   name: "Root",
-  redirect: "/dashboard",
+  redirect: BASEHOE,
   meta: {
     title: "Root",
   },
