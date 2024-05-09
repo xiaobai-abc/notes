@@ -17,10 +17,10 @@
   dependencies:
     color "^3.1.3"
 
-"@arco-design/web-react@^2.62.0":
-  version "2.62.0"
-  resolved "https://registry.npmmirror.com/@arco-design/web-react/-/web-react-2.62.0.tgz#720e009441b60d3b459b02561b111960b6c5e195"
-  integrity sha512-PXWuMukxMUx5e7uk9EOlq6syYCvPTCwutNOUCitR2bASR8uRjHBJKWnRTy3oMzfLhISLJmjzmT0itZ9oKZKpIA==
+"@arco-design/web-react@2.58.3":
+  version "2.58.3"
+  resolved "https://registry.npmmirror.com/@arco-design/web-react/-/web-react-2.58.3.tgz#c6fd4e2e6ca5ad7e6ec7358dae5f469ff477d036"
+  integrity sha512-UchlZvpte0vPsceNTxI10v0XqW3nRCQGraikCsvJyGWxLqKXPT5jferczXqNl3viI3K44wWPLmtYSz21IH3QwQ==
   dependencies:
     "@arco-design/color" "^0.4.0"
     "@babel/runtime" "^7.5.5"

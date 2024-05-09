@@ -1,8 +1,8 @@
-import { LAYOUT, REDIRECT_PATH } from "../constant";
+import { LAYOUT, LoginPage, TestPage, REDIRECT_PATH } from "../constant";
 import { Navigate } from "react-router-dom";
 
 // 导入所有模块
-const modules = import.meta.glob("../modules/**/*.js", { eager: true });
+const modules = import.meta.glob("../modules/**/*.jsx", { eager: true });
 const routeModuleList = [];
 
 // 加入到路由集合中
@@ -30,8 +30,25 @@ export const RootRoute = {
   },
 };
 
+const LoginPageRoute = {
+  path: "/login",
+  element: <LoginPage></LoginPage>,
+  meta: {
+    label: "登录",
+  },
+};
+
+const TestPageRoute = {
+  path: "/test",
+  element: (
+    <LAYOUT>
+      <TestPage></TestPage>
+    </LAYOUT>
+  ),
+};
+
 // 基本页面
-export const basicRoutes = [RootRoute];
+export const basicRoutes = [RootRoute, LoginPageRoute, TestPageRoute];
 
 // 错误页面
 export { PAGE_NOT_FOUND_ROUTE } from "./basic";

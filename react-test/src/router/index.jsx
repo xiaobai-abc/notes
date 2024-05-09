@@ -1,14 +1,18 @@
-import { asyncRoutes, basicRoutes, PAGE_NOT_FOUND_ROUTE } from "./routes";
-import { wrapRoutesWithLazy } from "./util";
-import {
-  fetchUserInfo,
-  selectAuthSlice,
-  setBuilderMenuList,
-} from "@/store/modules/authSlice";
-import { useDispatch, useSelector } from "react-redux";
 import LayoutLoading from "@/layout/component/Loading";
+import { getAuthCache } from "@/utils/auth/index.js";
+import { asyncRoutes, basicRoutes, PAGE_NOT_FOUND_ROUTE } from "./routes";
+import { REDIRECT_PATH } from "./constant";
+import { wrapRoutesWithLazy } from "./util";
 import { useLocation, useNavigate, useRoutes } from "react-router-dom";
-import { useEffect, useCallback, useState } from "react";
+import { useEffect, useCallback, useState, useMemo } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  selectAuthSlice,
+  setLastUpdateTime,
+  setDynamicAddedRoutes,
+  setBuilderMenuList,
+  authVerify,
+} from "@/store/modules/authSlice";
 
 // 存入白名单
 const whiteRouteName = [];
@@ -22,60 +26,69 @@ export default function getRoutes() {
   const naviagate = useNavigate();
   const dispatch = useDispatch();
 
-  const { status } = useSelector(selectAuthSlice);
+  const { status, lastUpdateTime, dynamicAddedRoutes } =
+    useSelector(selectAuthSlice);
 
   //路由列表 只存储显示的路由列表 不包含基本路由
   const [routes, setRoutes] = useState([]);
+  const authVerifyCallback = useCallback(() => dispatch(authVerify()), []);
 
-  const fetchUserInfoCallback = useCallback(async () => {
-    await dispatch(fetchUserInfo());
-  }, []);
-
-  // useEffect(() => {
-  //   // console.log("路由地址", loaction.pathname);
-  //   // 请求状态未开始 才去尝试鉴权
-  //   if (status === "idel") {
-  //     const token = getAuthCache();
-  //     if (token) {
-  //       fetchUserInfoCallback();
-  //       return;
-  //     }
-  //     if (!whiteRouteName.includes(loaction.pathname)) {
-  //       naviagate("/login");
-  //     }
-  //   }
-  // }, [loaction.pathname]);
-
-  // useEffect(() => {
-  //   if (status === "successed") {
-
-  //     // 生成权限菜单列表 *去除element
-  //     const handlerList = processAndModifyRoutes(filterList);
-  //     dispatch(setBuilderMenuList(handlerList));
-  //     // 根据权限生成路由
-  //     setRoutes(filterList);
-  //   }
-  // }, [status]);
+  const GenerateRoutesMemo = useMemo(() => {
+    return <GenerateRoutes routes={routes}> </GenerateRoutes>;
+  }, [routes]);
 
   useEffect(() => {
-    if (status === "idel") {
-      fetchUserInfoCallback();
+    const path = loaction.pathname;
+    const token = getAuthCache();
+
+    if (whiteRouteName.includes(path)) {
+      setLastUpdateTime(0);
+      if (!token && path !== "/login") {
+        naviagate("/login", { replace: true });
+        return;
+      } else if (token && path === "/login") {
+        naviagate(REDIRECT_PATH, { replace: true });
+      }
+      setLastUpdateTime(new Date().getTime());
+
+      return;
     }
+
+    if (lastUpdateTime === 0) {
+      authVerifyCallback();
+    }
+
+    if (dynamicAddedRoutes) return;
+
+    setRoutes(asyncRoutes);
+    const menuList = processAndModifyRoutes(asyncRoutes);
+
+    dispatch(
+      setBuilderMenuList(
+        menuList.sort((a, b) => {
+          return a.order - b.order;
+        })
+      )
+    );
+    dispatch(setDynamicAddedRoutes(true));
+  }, [loaction.pathname]);
+
+  useEffect(() => {
     if (status === "successed") {
-      console.log(">>>", asyncRoutes,basicRoutes);
       // 生成权限菜单列表 *去除element
       // dispatch(setBuilderMenuList(handlerList));
       // 根据权限生成路由
       // setRoutes(filterList);
+      // setRoutes(asyncRoutes);
     }
-  }, [status]);
+  }, []);
 
-  if (status === "loading") {
-    return <LayoutLoading />;
-  }
+  if (status === "loading") return <LayoutLoading />;
+
+  return <>{GenerateRoutesMemo}</>;
 
   // 这里有个取巧  默认权限-1 数据未响应 生成的结果也是空 + 基本路由
-  return <GenerateRoutes routes={routes} />;
+  // return <GenerateRoutes routes={routes}> </GenerateRoutes>;
 }
 
 /**
@@ -84,16 +97,19 @@ export default function getRoutes() {
  */
 
 function GenerateRoutes({ routes }) {
-  let handlerLazyRoutes = [];
-
-  // 处理路由为 懒加载
-  handlerLazyRoutes = routes.map((item) => {
+  const handlerLazyRoutes = routes.map((item) => {
     const temp = Object.assign({}, item);
     if (temp.children) {
       temp.children = wrapRoutesWithLazy(temp.children);
     }
     return temp;
   });
+
+  // const handlerLazyRoutesCallback = useCallback(() => {
+  //   // 处理路由为 懒加载
+
+  //   return handlerLazyRoutes;
+  // }, [routes]);
 
   const finishRoutes = [
     ...basicRoutes,
@@ -116,6 +132,7 @@ function processAndModifyRoutes(list) {
     const modifiedItem = {
       ...rest,
       // key: item.path,
+      // ...(meta || {}),
     };
     if (children && children.length) {
       modifiedItem.children = processAndModifyRoutes(children);

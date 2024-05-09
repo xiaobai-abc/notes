@@ -1,8 +1,9 @@
 import { lazy, Suspense } from "react";
-
 import { LAYOUT } from "../constant";
+
 const LoadingComponent = () => {
-  return <>loading</>;
+  // return <>loading</>;
+  return <>{""}</>;
 };
 // 组件懒加载
 export function LazyElement({ routeElement }) {
@@ -37,10 +38,11 @@ export function wrapRoutesWithLazy(route) {
 }
 
 // 生成路由的模版
-export function defautlComponent({ path, element }, ...otherRoute) {
+export function defautlComponent({ path, element,name }, ...otherRoute) {
   return {
     path,
     element: <LAYOUT></LAYOUT>,
+    name,
     children: [
       {
         path: "",

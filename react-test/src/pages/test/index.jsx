@@ -1,9 +1,3 @@
-
-
-
-export default function TestPage(){
-
-
-
-  return (<div>asdas</div>)
+export default function TestPage() {
+  return <div>test</div>;
 }

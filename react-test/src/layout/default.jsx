@@ -1,7 +1,8 @@
 import { Outlet } from "react-router-dom";
-import { Layout, Message } from "@arco-design/web-react";
+import { Layout, Typography } from "@arco-design/web-react";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useOutlet } from "react-router-dom";
+import Menu from "./component/Menu";
 
 import styles from "./default.module.less";
 
@@ -15,19 +16,19 @@ function LayoutDefault({ children }) {
 
   return (
     <Layout className={styles.defaultLayout}>
-      <Header>
-         zxczx
+      <Header
+        className={styles.header}
+        style={{ borderBottom: "1px solid #ededed" }}
+      >
+        <Typography.Title heading={5} style={{ margin: "10px 15px" }}>
+          测试管理后台
+        </Typography.Title>
       </Header>
       <Layout>
-        <Sider
-          width={220}
-          style={{
-            position: "relative",
-            zIndex: 210,
-          }}
-          collapsed={isCollapsed}
-        >
-          <div className={styles.sider}></div>
+        <Sider className={styles.sider} width={220} collapsed={isCollapsed}>
+          <div className={styles.siderMenu}>
+            <Menu></Menu>
+          </div>
         </Sider>
         <Content className={styles.content}>
           {/* <Breadcrumb></Breadcrumb> */}
@@ -42,7 +43,9 @@ function LayoutDefault({ children }) {
 
 export default LayoutDefault;
 
-function Render({ children }) {
+function Render(context) {
+  const { children } = context;
+
   if (children) {
     return children;
   }

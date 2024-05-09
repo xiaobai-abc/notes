@@ -1,0 +1,1 @@
+.other{border:1px solid red;height:100%}.other .box{border:1px solid black;height:500px;width:500px;margin:20px auto auto;clip-path:polygon(0 0,100% 0,100% 70%,70% 100%,0 100%);border-radius:10%;overflow:hidden}.other .box .img{width:100%;height:100%}

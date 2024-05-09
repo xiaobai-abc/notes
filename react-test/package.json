@@ -10,7 +10,7 @@
     "preinstall": "npx only-allow yarn"
   },
   "dependencies": {
-    "@arco-design/web-react": "^2.62.0",
+    "@arco-design/web-react": "2.58.3",
     "@reduxjs/toolkit": "^2.2.3",
     "axios": "^1.6.8",
     "classnames": "^2.5.1",

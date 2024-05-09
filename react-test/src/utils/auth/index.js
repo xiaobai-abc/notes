@@ -1,5 +1,5 @@
 const STORAGE = import.meta.env.APP_STORAGE;
-const TOKEN_KEY = import.meta.env.APP_TOKEN_KEY;
+const TOKEN_KEY = import.meta.env.APP_TOKEN;
 
 const storageMethod =
   STORAGE === "localStorage" ? localStorage : sessionStorage;

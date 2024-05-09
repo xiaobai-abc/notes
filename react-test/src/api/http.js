@@ -1,5 +1,5 @@
 import axios from "axios";
-import { getAuthCache } from "@/utils/auth";
+import { getAuthCache, clearAuthCache } from "@/utils/auth";
 import { Message } from "@arco-design/web-react";
 // 数据返回的接口
 
@@ -45,7 +45,7 @@ class RequestHttp {
       (error) => {
         const { response } = error;
         // Notification.error(error.message);
-        console.log(response, error) 
+        console.log(response, error);
         if (response) {
           this.handleCode(response.status, response.statusText);
         } else {
@@ -70,9 +70,11 @@ class RequestHttp {
   handleCode(code, statusText) {
     switch (code) {
       case 401:
-        console.log(code, statusText, "77line");
+        console.log(code, statusText);
         // console.log(router)
-
+        clearAuthCache();
+        window.location.href = "/login";
+        Message.error("身份验证过期~~~");
         break;
       case 500:
         break;
@@ -80,20 +82,17 @@ class RequestHttp {
         break;
     }
   }
-  needTokenFun(boo) {
-    if (typeof boo == "boolean" && boo) {
-      // const token = Cookies.get('token');
-      const token = getAuthCache();
-      if (token) {
-        return { authorization: "Bearer " + token };
-      } else {
-        // Notification.info("您还未登录呦~~~~")
-        return {};
-      }
-    } else if (Object.prototype.toString.call(boo) == "[object Object]") {
+  needTokenFun(boo = true) {
+    if (Object.prototype.toString.call(boo) == "[object Object]") {
       return boo;
     } else {
-      return {};
+      const config = () => {
+        const config = { headers: {} };
+        const token = getAuthCache();
+        token && (config["headers"]["Authorization"] = "Bearer " + token);
+        return config;
+      };
+      return boo ? config() : {};
     }
   }
 
@@ -101,35 +100,23 @@ class RequestHttp {
     const header = this.needTokenFun(boo);
     return this.service.get(url, {
       params,
-      headers: {
-        ...header,
-      },
+      ...header,
+      
     });
   }
   post(url, params, boo = true) {
     const header = this.needTokenFun(boo);
-    return this.service.post(url, params, {
-      headers: {
-        ...header,
-      },
-    });
+    return this.service.post(url, params, header);
   }
   put(url, params, boo = true) {
     const header = this.needTokenFun(boo);
     return this.service.put(url, params, {
-      headers: {
-        ...header,
-      },
+      ...header,
     });
   }
   delete(url, params, boo = true) {
     const header = this.needTokenFun(boo);
-    return this.service.delete(url, {
-      params,
-      headers: {
-        ...header,
-      },
-    });
+    return this.service.delete(url, params, header);
   }
 }
 

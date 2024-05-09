@@ -1,6 +1,6 @@
 import { LAYOUT } from "../constant";
 
-import NotFoundPage from "@/pages//notFound";
+import NotFoundPage from "@/pages/notFound";
 // 404 on a page 始终要放到列表最底部
 export const PAGE_NOT_FOUND_ROUTE = {
   path: "*",
