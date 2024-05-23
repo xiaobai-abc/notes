@@ -112,6 +112,14 @@ router.post("/login", function (req, res) {
 
 router.get("/verify", function (req, res) {
   const token = req.headers.authorization;
+  if (!token) {
+    res.status(401).send({
+      code: 0,
+      data: null,
+      message: "登录过期~~~",
+    });
+    return;
+  }
   const decoded = TokenUtil.verify(token.split("Bearer ")[1]);
 
   if (decoded) {
@@ -219,5 +227,6 @@ router.get(
     }
   }
 );
+
 
 module.exports = router;

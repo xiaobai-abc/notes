@@ -5,6 +5,7 @@ import { BrowserRouter,HashRouter } from "react-router-dom";
 import { Provider } from "react-redux";
 import store from "@/store";
 import "@/style/index.less";
+import "@/style/tailwind.css"
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   // <React.StrictMode>

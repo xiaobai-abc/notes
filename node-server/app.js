@@ -7,7 +7,7 @@ const cors = require("cors");
 // const history = require('connect-history-api-fallback');
 
 const indexRouter = require("./routes/index");
-const usersRouter = require("./routes/users");
+const apiRouter = require("./routes/api");
 
 const app = express();
 
@@ -31,7 +31,7 @@ app.use(express.static(path.join(__dirname, "public")));
 // app.use(history());
 
 app.use("/", indexRouter);
-app.use("/users", usersRouter);
+app.use("/api", apiRouter);
 
 // 处理所有路由，并返回 index.html
 app.get("*", (req, res) => {

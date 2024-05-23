@@ -4,6 +4,8 @@ import { resolve } from "path";
 import react from "@vitejs/plugin-react-swc";
 import legacy from "@vitejs/plugin-legacy";
 import postcssPresetEnv from "postcss-preset-env";
+import tailwindcss from "tailwindcss";
+import autoprefixer from "autoprefixer";
 import browserslist from "browserslist";
 import { vitePluginForArco } from "@arco-plugins/vite-react";
 
@@ -48,7 +50,7 @@ export default defineConfig({
   css: {
     modules: {},
     postcss: {
-      plugins: [postcssPresetEnv()],
+      plugins: [postcssPresetEnv(), tailwindcss, autoprefixer],
     },
     preprocessorOptions: {
       less: {

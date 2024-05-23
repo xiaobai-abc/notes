@@ -105,6 +105,13 @@ function drowPolygon(result, name) {
       });
       TMap.addOverLay(polygon);
     };
+
+    const mark = new T.Marker(new T.LngLat("122.039597", "39.277448"),{
+      icon : new T.Icon({
+        iconUrl : "https://webapi.amap.com/theme/v1.3/markers/n/mark_b.png",
+      })
+    });
+    TMap.addOverLay(mark);
     result.forEach((arr) => {
       arr.forEach((item) => {
         drowPolygonFunc(item);
