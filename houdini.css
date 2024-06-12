@@ -1,0 +1,30 @@
+/* 
+  js 的写法
+CSS.registerProperty({
+  name: '--my-color',
+  syntax: '<color>',
+  inherits: false,
+  initialValue: 'red',
+}); */
+
+
+/* 
+
+  css 的写法
+
+*/
+/* 值的名称 */
+@property --my-prop {
+  /* 值的类型 */
+  syntax: '<color>';    
+  /* 是否继承父元素 */
+  inherits: false;
+  /* 默认值 错误显示的值 */
+  initial-value: #c0ffee;
+}
+
+ /* 
+ 
+ 
+ 
+ */

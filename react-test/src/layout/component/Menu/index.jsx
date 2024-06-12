@@ -51,6 +51,8 @@ function RMenu() {
         return <IconDashboard />;
       case "/classify":
         return <IconDashboard />;
+      default:
+        return <IconDashboard />;
     }
   }
 

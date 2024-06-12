@@ -7,6 +7,13 @@ export default {
   order: 2,
   children: [
     {
+      path: "three",
+      element: () => import("@/pages/classify/three"),
+      meta: {
+        label: "three3d 测试",
+      },
+    },
+    {
       path: "index",
       element: () => import("@/pages/classify"),
       meta: {
