@@ -82,7 +82,8 @@ export default defineConfig({
       plugins: [],
     },
   },
-  server : {
-    port : "5166"
-  }
+  base: "./",
+  server: {
+    port: "5166",
+  },
 });

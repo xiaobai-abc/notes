@@ -282,3 +282,76 @@ let iterobj = {
     self.postMessage("Greeting from Worker.js"); // 向主线程发送消息
   });
 }
+
+{
+  // 元素追加动画
+  const animationMap = new WeakMap(); // weakmap 键没有索引后会触发 垃圾回收机制
+  const observer = new IntersectionObserver((entries) => {
+    for (const entry of entries) {
+      // 元素与视口重合
+      if (!entry.isIntersecting) continue;
+      const animation = animationMap.get(entry.target);
+      animation.play();
+
+      // 结束后  取消监听
+      observer.unobserve(entry.target);
+      // animationMap.delete(entry.target)
+    }
+  });
+  // 元素如果在视口之上 就不需要监听动画
+  function isBelowViewport(el) {
+    const rect = el.getBoundingClientRect();
+    // 其实我在想 这里是不是应该 元素的top 大于 滚动出的距离
+    return rect.top > window.innerHeight;
+  }
+  function mounted(el) {
+    el = el || document.createElement("div")[0];
+    if (!isBelowViewport(el)) return;
+    if (el) {
+      const animation = el.animation(
+        [
+          {
+            //第一个关键帧
+            opacity: 0,
+          },
+          {
+            //第二个关键帧
+            opacity: 1,
+          },
+        ],
+        {
+          duration: 1000,
+          easing: "ease-in-out",
+        }
+      );
+      animation.pause(); //暂停
+      animationMap.set(el, animation);
+    }
+
+    // 结束后  取消监听
+    observer.unobserve(el);
+  }
+}
+
+{
+  // 惰性函数
+  //  生成新的 函数 不需要每次都条件判断
+  function copyText(text) {
+    if (navigator.clipboard) {
+      copyText = (test) => {
+        navigator.clipboard.writeText(text);
+      };
+    } else {
+      copyText = (text) => {
+        const textarea = document.createElement("textarea");
+        textarea.value = text;
+        textarea.readonly = true;
+        document.body.appendChild(textarea);
+        textarea.select();
+        document.execCommand("copy");
+        document.body.removeChild(textarea);
+      };
+    }
+    copyText(text);
+  }
+}
