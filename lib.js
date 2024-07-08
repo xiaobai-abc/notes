@@ -355,3 +355,12 @@ let iterobj = {
     copyText(text);
   }
 }
+
+{
+  // 监听方法
+  // MutationObserver  元素变化时触发
+  // IntersectionObserver 元素与视口重合时触发
+  // ResizeObserver 元素大小变化时触发
+  // requestAnimationFrame 动画帧
+  // requestIdleCallback   空闲帧
+}

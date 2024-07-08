@@ -3,27 +3,19 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>测试文件</title>
-    <link rel="stylesheet" href="index.css" />
-    <style>
-      .box {
-        width: 200px;
-        height: 200px;
-        background: red;
-      }
-    </style>
+    <title>无</title>
   </head>
   <body>
-    <div class="box" style="margin: 0"></div>
+    <h1>网站建设中....</h1>
   </body>
   <script>
     const box = document.querySelector(".box");
     // 第一个是外部文件
     // 第二个是style 样式表
-    const styleSheet = document.styleSheets[1];
+    // const styleSheet = document.styleSheets[1];
 
-    const rules = styleSheet.cssRules;
-    const rule = rules[0];
+    // const rules = styleSheet.cssRules;
+    // const rule = rules[0];
     // rule.style.opacity = 0.2
 
     // document.styleSheets[0].cssRules[0].style.opacity = 0.3;
@@ -38,7 +30,7 @@
     let done = false;
     // 位置 和 当前时间成比 每次计算都拿当前时间和 最开始的起始时间相减，然后根据最后的时间计算出移动的距离
     function step(timestamp) {
-      console.log(timestamp)
+      console.log(timestamp);
       if (start === undefined) {
         start = timestamp;
       }
@@ -60,6 +52,6 @@
       }
     }
 
-    window.requestAnimationFrame(step);
+    // window.requestAnimationFrame(step);
   </script>
 </html>

@@ -84,6 +84,7 @@ export default defineConfig({
   },
   base: "./",
   server: {
-    port: "5166",
+    port: 5166,
+    host: "0.0.0.0", // ← 新增内容 ←
   },
 });
