@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MacOS Dock Effect</title>
+    <style>
+      body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+        background-color: #282c34;
+      }
+
+      .dock {
+        display: flex;
+        padding: 10px;
+        background-color: rgba(255, 255, 255, 0.1);
+        border-radius: 20px;
+        transition: padding 0.2s;
+      }
+
+      .dock img {
+        width: 50px;
+        margin: 0 5px;
+        transition: transform 0.2s ease-out;
+      }
+    </style>
+  </head>
+  <body>
+    <input class="fileinput" type="file" />
+    <div class="dock">
+      <img src="https://via.placeholder.com/100" alt="App 1" />
+      <img src="https://via.placeholder.com/100" alt="App 2" />
+      <img src="https://via.placeholder.com/100" alt="App 3" />
+      <img src="https://via.placeholder.com/100" alt="App 4" />
+      <img src="https://via.placeholder.com/100" alt="App 5" />
+    </div>
+    <script>
+      const input = document.querySelector(".fileinput");
+      input.addEventListener("change", () => {
+        const file = input.files[0];
+
+        const fileread = new FileReader();
+
+        fileread.onload = () => {
+          console.log(fileread.result);
+        };
+
+        fileread.readAsDataURL(file);
+        // fileread.readAsArrayBuffer(file);
+      });
+    </script>
+    <script>
+      const dock = document.querySelector(".dock");
+      const icons = document.querySelectorAll(".dock img");
+
+      dock.addEventListener("mousemove", (e) => {
+        const dockRect = dock.getBoundingClientRect();
+
+        icons.forEach((icon) => {
+          const iconRect = icon.getBoundingClientRect();
+          const iconCenterX = iconRect.left + iconRect.width / 2;
+
+          // 计算鼠标到图标中心的距离
+          const distance = Math.abs(e.clientX - iconCenterX);
+
+          // 设置最大缩放比例和缩放范围
+          const maxScale = 1.5;
+          const minScale = 1;
+          const maxDistance = 100; // 控制缩放影响范围
+
+          // 计算缩放比例
+          let scale =
+            maxScale - (distance / maxDistance) * (maxScale - minScale);
+          if (scale < minScale) scale = minScale;
+
+          // 应用缩放效果
+          icon.style.transform = `scale(${scale})`;
+        });
+      });
+
+      dock.addEventListener("mouseleave", () => {
+        icons.forEach((icon) => {
+          icon.style.transform = "scale(1)";
+        });
+      });
+    </script>
+  </body>
+</html>

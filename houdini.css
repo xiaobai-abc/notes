@@ -7,7 +7,6 @@ CSS.registerProperty({
   initialValue: 'red',
 }); */
 
-
 /* 
 
   css 的写法
@@ -16,15 +15,24 @@ CSS.registerProperty({
 /* 值的名称 */
 @property --my-prop {
   /* 值的类型 */
-  syntax: '<color>';    
+  syntax: "<color>";
   /* 是否继承父元素 */
   inherits: false;
   /* 默认值 错误显示的值 */
   initial-value: #c0ffee;
 }
 
- /* 
+/* 
  
  
  
  */
+
+.text {
+  background-clip: padding-box;
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  background-image: linear-gradient(to right, #f27121, #e94057, #8a2387);
+  /* background-image: linear-gradient(to right, #f27121, #e94057, #8a2387); */
+}

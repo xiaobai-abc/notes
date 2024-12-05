@@ -1,1 +1,0 @@
-System.register(["./vendor-legacy-chunk-Ba7V9gec.js"],(function(e,t){"use strict";var r;return{setters:[e=>{r=e.j}],execute:function(){e("default",(function(){return r.jsx("div",{children:"this is dashboard"})}))}}}));

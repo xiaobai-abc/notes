@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="test.css" />
+  </head>
+  <body>
+    <div
+      id="a"
+      style="
+        display: grid;
+        /* grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); */
+        grid-template-columns: repeat(5, 1fr);
+        column-gap: 14px;
+        padding: 0 14px;
+        flex: 1 0 0%;
+        overflow: hidden;
+        margin-bottom: 1rem;
+      "
+    ></div>
+    <script>
+      let htmla = "";
+      new Array(5).fill(1).forEach((_, i) => {
+        return (htmla += ` <div
+              class="b"
+              style="
+                --bg: #fdf9f5;
+                background-color: var(--bg, #fff);
+                overflow: hidden;
+                border-radius: 5px;
+                padding: 16px 16px;
+                min-width: 200px;
+              "
+            >
+              <h2 style="font-size: 16px; margin: 0; padding: 0; margin-bottom: 14px">
+                菜品数量
+              </h2>
+              <span style="font-size: 14px; margin: 0; padding: 0">{$content}</span>
+            </div>`);
+      });
+
+      a.innerHTML = htmla;
+    </script>
+  </body>
+</html>
