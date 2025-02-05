@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vite + Vue</title>
+  </head>
+  <body>
+    <div id="app"></div>
+    <script type="module" src="/src/main.js"></script>
+
+    <script>
+      function a() {
+        document.addEventListener("readystatechange", () => {
+          if (document.readyState === "complete") {
+            const divs = document.body.children;
+            // 用于存储匹配的 div 元素
+            const matchingDivs = [];
+            // 遍历所有 div 元素
+            for (let i = 0; i < divs.length; i++) {
+              const div = divs[i];
+              // 检查是否是 div
+              if (div.tagName.toLowerCase() === "div") {
+                const style = div.style.cssText;
+                // 检查 style 属性是否满足条件
+                const hasPointerEventsNone = style.includes(
+                  "pointer-events: none;"
+                );
+                const hasPositionFixed = style.includes("position: fixed;");
+                const backgroundImage = div.style.backgroundImage;
+                // 检查背景图像 URL 是否以 data:image/png;base64 开头
+                const isDataUrl =
+                  backgroundImage.startsWith('url("data:image/png;base64') ||
+                  backgroundImage.startsWith("url(data:image/png;base64");
+                // 如果上述条件都满足，将该 div 添加到匹配数组中
+                if (hasPointerEventsNone && hasPositionFixed && isDataUrl) {
+                  matchingDivs.push(div);
+                }
+              }
+            }
+
+            // 删除所有匹配的 div 元素
+            matchingDivs.forEach((div) => {
+              div.parentNode.removeChild(div);
+            });
+          }
+        });
+      }
+    </script>
+  </body>
+</html>

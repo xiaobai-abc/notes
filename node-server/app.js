@@ -5,10 +5,11 @@ const cookieParser = require("cookie-parser");
 const logger = require("morgan");
 const cors = require("cors");
 // const history = require('connect-history-api-fallback');
-const wsModule = require("./modules/ws");
+// const wsModule = require("./modules/ws");
 
 const indexRouter = require("./routes/index");
 const apiRouter = require("./routes/api");
+const other = require("./routes/other");
 
 const app = express();
 
@@ -33,8 +34,9 @@ app.use(express.static(path.join(__dirname, "public")));
 
 app.use("/", indexRouter);
 app.use("/api", apiRouter);
+app.use("/api", other);
 
-wsModule.initWs();
+// wsModule.initWs();
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
