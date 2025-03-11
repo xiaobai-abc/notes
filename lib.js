@@ -103,7 +103,7 @@ let iterobj = {
     const arrValues = Object.values(this); //value
     const iter = arr[Symbol.iterator]();
     return iter;
-  },
+  }
 };
 
 /**
@@ -208,7 +208,7 @@ let iterobj = {
   // 标签模版
   let user = {
     name: "名字",
-    age: "18",
+    age: "18"
   };
 
   const hi = tag`xxxxx${user.name},asdasd${user.age}`;
@@ -233,6 +233,7 @@ let iterobj = {
 
 {
   // 移除节点标签
+  // 去掉字符串中的元素标记
   function removeTag(fragment) {
     return (
       new DOMParser().parseFromString(fragment, "text/html").body.textContent ||
@@ -312,16 +313,16 @@ let iterobj = {
         [
           {
             //第一个关键帧
-            opacity: 0,
+            opacity: 0
           },
           {
             //第二个关键帧
-            opacity: 1,
-          },
+            opacity: 1
+          }
         ],
         {
           duration: 1000,
-          easing: "ease-in-out",
+          easing: "ease-in-out"
         }
       );
       animation.pause(); //暂停
@@ -363,4 +364,29 @@ let iterobj = {
   // ResizeObserver 元素大小变化时触发
   // requestAnimationFrame 动画帧
   // requestIdleCallback   空闲帧
+}
+
+{
+  // 筛选对象属性
+  function pick(obj, keys) {
+    // return keys.reduce((pre, cur) => {
+    //   pre[cur] = obj[cur];
+    //   return pre;
+    // }, {});
+    return Object.fromEntries(
+      Object.entries(obj).filter(([key]) => keys.includes(key))
+    );
+  }
+}
+
+{
+  // 随机颜色
+  function randomColor() {
+    return (
+      "#" +
+      Math.floor(Math.random() * 0xffffff)
+        .toString(16)
+        .padEnd(6, "0")
+    );
+  }
 }

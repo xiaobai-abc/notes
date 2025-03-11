@@ -17,7 +17,11 @@ const app = express();
 // app.set('views', path.join(__dirname, 'views'));
 // app.set('view engine', 'pug');
 
-app.use(logger("dev"));
+// app.use(logger("dev",{
+//   ip : true
+// }));
+app.use(logger(':method :url :status :res[content-length] - :response-time ms - :remote-addr'));
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
